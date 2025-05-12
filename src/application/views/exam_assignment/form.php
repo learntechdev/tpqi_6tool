@@ -1,0 +1,182 @@
+<?php $this->load->view("breadcrumb/breadcrumb", $breadcrumb); ?>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" style="min-height:480px">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="label_head">สร้างงานออกข้อสอบ</span>
+                            <hr />
+                        </div>
+
+                        <div class="col-md-12">
+                            <form id="form" name="form">
+                                <div class="row">
+                                    <?php
+                                    $action = "";
+                                    $rs = "";
+                                    $str_user_assessor = [];
+                                    if (isset($_POST['action'])) {
+                                        $action = $_POST['action'];
+                                        if ($action == 'edit') {
+                                            $rs = $this->ExamAssignmentModel->get_foredit($_POST['exam_assign_id']);
+                                            // print_r($rs);
+                                        }
+                                    } else {
+                                        $action = "create";
+                                        $str_user_assessor = "";
+                                        $rs = null;
+                                    }
+                                    ?>
+
+                                    <input type="hidden" class="form-control" id="action" name="action"
+                                        value="<?= $action; ?>" />
+                                    <input type="hidden" class="form-control" id="exam_assign_id" name="exam_assign_id"
+                                        value="<?php if( $rs != null )  echo $rs['exam_assign_id'] ?>" />
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label"> เลขที่สัญญา <span
+                                            class="span-req-field">*</span></label>
+                                    <div class="col-md-5" style="padding-bottom:5px">
+                                        <input class="form-control" type="text" id="contract_no" name="contract_no"
+                                            value="<?php if( $rs != null )  echo $rs['contract_no'] ?>">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label"> วันที่เริ่มต้น <span
+                                            class="span-req-field">*</span></label>
+                                    <div class="form-group col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <input style="padding:10px" type="text" class="form-control float-right"
+                                                name="start_date" id="start_date" autocomplete="off" readonly
+                                                value="<?php if( $rs != null )  echo $this->BaseModel->dateThaiToInput($rs['start_date'], false) ?>">
+                                        </div>
+                                    </div>
+                                    <label class="col-md-1 col-form-label"> วันที่สิ้นสุด <span
+                                            class="span-req-field">*</span></label>
+                                    <div class="form-group col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <input style="padding:10px" type="text" class="form-control float-right"
+                                                name="end_date" id="end_date" autocomplete="off" readonly
+                                                value="<?php if( $rs != null )  echo $this->BaseModel->dateThaiToInput($rs['end_date'], false) ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label"> ชื่อโครงการ <span
+                                            class="span-req-field">*</span></label>
+                                    <div class="col-md-10" style="padding-bottom:5px">
+                                        <input class="form-control" type="text" id="project_name" name="project_name"
+                                            value="<?php if( $rs != null )  echo $rs['project_name'] ?>">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label"> คุณวุฒิวิชาชีพ <span
+                                            class="span-req-field">*</span></label>
+                                    <div class="col-md-10" style="padding-bottom:5px">
+                             <!--           <input type="hidden" id="txt_occ_level" name="txt_occ_level">    -->
+                                        <select class="form-control occ_level" data-dropup-auto="false"
+                                            id="occ_level_id" name="occ_level_id[]" multiple="multiple" required="" data-live-search="true"
+                                            single="single">
+                                            <option value="0">--กรุณาเลือก--</option>
+                                            <?php foreach ($occ_level as $v) { ?>
+                                            <option value="<?php echo $v->id; ?>"
+                                                <?php if( $rs != null ) {
+                                                                            echo
+                                                                            in_array($v->id, explode(',', $rs['occ_level_id'])) ? 'selected="selected"' : ''; 
+																		}	
+																			?>>
+                                                <?php echo $v->occ_level; ?>
+                                            </option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label"> ผู้ออกข้อสอบ <span
+                                            class="span-req-field">*</span></label>
+                                    <div class="col-md-10" style="padding-bottom:5px">
+                                        <select class="form-control user_exam_assign" data-dropup-auto="false"
+                                            data-live-search="true" multiple="multiple" id="user_exam_assign"
+                                            name="user_exam_assign[]">
+                                            <?php foreach ($user_exam_assign as $v_eass) { ?>
+                                            <option value="<?php echo $v_eass->citizen_id; ?>" <?php
+                                                                                                    if ($rs != null) {
+                                                                                                        echo
+                                                                                                        in_array($v_eass->citizen_id, explode(',', $rs['user_exam_assign'])) ? 'selected="selected"' : '';
+                                                                                                    }
+
+                                                                                                    ?>>
+                                                <?php echo   $v_eass->fullname; ?>
+                                            </option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-2 col-form-label"> ผู้ตรวจข้อสอบ <span
+                                            class="span-req-field">*</span></label>
+                                    <div class="col-md-10" style="padding-bottom:5px">
+                                        <select class="form-control user_assessor" data-dropup-auto="false"
+                                            data-live-search="true" multiple="multiple" id="user_assessor"
+                                            name="user_assessor[]">
+                                            <?php foreach ($user_assessor as $v_ass) { ?>
+                                            <option value="<?php echo $v_ass->citizen_id; ?>" <?php
+                                                                                                    if ($rs != null) {
+                                                                                                        echo
+                                                                                                        in_array($v_ass->citizen_id, explode(',', $rs['user_assessor'])) ? 'selected="selected"' : '';
+                                                                                                    }
+
+                                                                                                    ?>>
+                                                <?php echo $v_ass->fullname; ?>
+                                            </option>
+                                            <?php
+
+                                            } ?>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="col-md-12">
+                                    <div class="row" style="text-align:center">
+                                        <div class="col-md-5"></div>
+                                        <div style="padding:5px;">
+                                            <button type="button" class="btn btn-primary" id="btn_save">
+                                                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                                <strong>บันทึก</strong>
+                                            </button>
+                                        </div>
+                                        <div style="padding:5px">
+                                            <a href="../../exam/ExamAssignment/index" class="btn btn-secondary">
+                                                <i class="fa fa-arrow-circle-left" style="color:#fff"></i>
+                                                <strong>กลับ</strong>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br /><br />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- /.content -->
+
+<script type="text/javascript" src="<?= base_url(); ?>assets/custom_js/exam_assignment/form.js?<?= date("YmdHis") ?>">
+</script>

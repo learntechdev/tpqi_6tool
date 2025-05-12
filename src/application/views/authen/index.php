@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login digitalexam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/fonts_saraban/thsarabunnew.css" />
+    <link href="<?= base_url(); ?>assets/css/bootstrap.css?<?= date("YmdHis") ?>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="<?= base_url(); ?>assets/js/jquery.min.js"></script>
+    <script src="<?= base_url(); ?>assets/js/jquery.redirect.js?<?= date("YmdHis") ?>"></script>
+</head>
+
+<body class="hold-transition login-page">
+    <div class="row pt-5">
+        <div class="col-md-4 "></div>
+        <div class="col-md-4">
+            <div class="login-box">
+                <div class="login-logo">
+                </div>
+                <div class="card">
+                    <div class="card-body login-card-body">
+                        <div class="text-center">
+                            <div>
+                                <img src="<?= base_url(); ?>assets/img/logo/tpqi_logo.jpg" alt="">
+                            </div>
+                        </div>
+                        <hr>
+                        <form id="form" method="post">
+                            <div class="input-group mb-3">
+                                <input name="username" type="text" class="form-control" placeholder="ชื่อผู้ใช้งาน"
+                                    required>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <input name="password" type="password" class="form-control" placeholder="รหัสผ่าน"
+                                    required>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fa fa-lock"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button id="btnOK" type="button" class="btn btn-primary btn-block">ตกลง</button>
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <p class="mb-1">
+                            <a href="#">ลืมรหัสผ่าน</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+$("#btnOK").on("click", function() {
+    $.ajax({
+        type: "POST",
+        url: "../Authentication/authen",
+        data: $("#form").serialize(),
+        dataType: "JSON",
+        success: function(response) {
+            // console.log(response.status)
+            if (response.status != 1) {
+                alert("ชื่อหรือรหัสผ่านไม่ถูกต้อง");
+            } else {
+				$.redirect("../../asmtools/ASMTools/index");
+				/*
+                if (response.user_type == '1') {
+					
+                    $.redirect("../../assessment/PersonAssessment/index");
+                } else if (response.user_type == '2') {
+                    $.redirect("../../approve/Approve/index");
+                } else if (response.user_type == '3') {
+                    $.redirect("../../approve/Approve/choose_exam");
+                } else if (response.user_type == '4') {
+                    $.redirect("../../approve/Approve/define_criteria");
+                } else if (response.user_type == '5') {
+                    $.redirect("../../approve/Approve/get_examforapprove");
+                } else if (response.user_type == '7') {
+                    $.redirect("../../assessment/Assessment/index");
+                } else if (response.user_type == '8') {
+                    $.redirect("../../asmtools/ASMTools/index");
+                } else {
+                    $.redirect("../../exam/ExamAssignment/fetchContract");
+                    //$.redirect("../../asmtools/ASMTools/index");
+                }
+				*/
+            }
+        },
+    });
+});
+</script>

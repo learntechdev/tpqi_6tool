@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+      RewriteCond %{REQUEST_FILENAME} !-f
+      RewriteCond %{REQUEST_FILENAME} !-d
+	  RewriteCond %{REQUEST_METHOD} ^(GET|POST|PUT|DELETE)$ [NC]
+      RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
+      RewriteCond %{HTTP:Authorization} ^(.*)
+      RewriteRule .* - [L]
+</IfModule>
+<IfModule mod_security2.c>
+		SecRuleEngine Off
+		
+</IfModule>
