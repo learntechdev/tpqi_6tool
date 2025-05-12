@@ -23,7 +23,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
  */
-$config['base_url'] = 'https://asm_uat.mylearntime.com/';
+//$config['base_url'] = 'http://localhost:2052'; //'https://asm_uat.mylearntime.com/';
+//$config['base_url'] = 'https://asm_uat2.mylearntime.com/';
+$config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . "/";
 
 /*
 |--------------------------------------------------------------------------

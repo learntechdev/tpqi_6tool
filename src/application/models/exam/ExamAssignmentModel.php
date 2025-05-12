@@ -73,4 +73,6 @@ class ExamAssignmentModel extends CI_Model
         $condition = ["exam_assign_id" => $exam_assign_id,];
         return $this->BaseModel->update("exam_assignment", $data, $condition);
     }
+
+    
 }

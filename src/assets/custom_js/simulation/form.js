@@ -2,6 +2,10 @@ $(document).ready(function () {
 	$(".occ_level").select2();
 	$(".exam_type").select2();
 	$(".template_type").select2();
+	$('#tier2_code, #tier3_code, #level_code').prop('disabled', true);
+	$('#tier2_code').html('<option value="">--กรุณาเลือกสาขา--</option>');
+	$('#tier3_code').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+	$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
 
 	CKEDITOR.replace("desc_for_examier", {
 		fullPage: false, // ถ้ากำหนดเป็น false จะลบแท็ก HEAD/BODY/HTML ออกไม่ต้องเก็บลง db
@@ -26,6 +30,113 @@ $(document).ready(function () {
 	});
 
 	get_dataforedit();
+	$('#tier1_code').change(function() {
+		$('#tier2_code, #tier3_code, #level_code').prop('disabled', true);
+		$('#tier2_code').html('<option value="">--กรุณาเลือกสาขา--</option>');
+		$('#tier3_code').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+		$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
+		const tier1_code = $(this).val();
+		// alert(tier1_code);
+		if (tier1_code) {
+			
+			$.post('../../phtools/PhDropDown/getTier2', {
+				tier1_code
+			}, function(data) {
+				// alert(data.length + ' ' + data[0].tier2_code)
+				if (data.length === 1 && !data[0].tier2_code) {
+					$('#tier2_code').val('');
+					$('#tier2_code').change();
+					$('#tier2_code').prop('disabled', true);
+					$('#tier2_code').html('<option value="">--ไม่มีสาขา--</option>');
+				} else {
+					$('#tier2_code').html('<option value="">--กรุณาเลือกสาขา--</option>');
+					data.forEach(item => {
+						if (!item.tier2_code) {
+							$('#tier2_code').append(`<option value=""> - </option>`);
+						} else {
+							$('#tier2_code').append(`<option value="${item.tier2_code}">${item.tier2_title}</option>`);
+						}
+
+					});
+					$('#tier2_code').prop('disabled', false);
+				}
+
+			}, 'json');
+		}
+
+	});
+
+	$('#tier2_code').change(function() {
+		const tier1_code = $('#tier1_code').val();
+		const tier2_code = $(this).val();
+		$('#tier3_code, #level_code').prop('disabled', true);
+		$('#tier3_code').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+		$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
+		// if (tier2_code) {
+		$.post('../../phtools/PhDropDown/getTier3', {
+			tier1_code,
+			tier2_code
+		}, function(data) {
+			$('#tier3_code').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+			data.forEach(item => {
+				$('#tier3_code').append(`<option value="${item.tier3_id}">${item.tier3_title}</option>`);
+			});
+			$('#tier3_code').prop('disabled', false);
+		}, 'json');
+		// }
+
+
+	});
+
+	$('#tier3_code').change(function() {
+		const tier1_code = $('#tier1_code').val();
+		const tier2_code = $('#tier2_code').val();
+		const tier3_id = $(this).val();
+		$('#level_code').prop('disabled', true).html('<option value="">--กรุณาเลือกชั้น--</option>');
+		if (tier3_id) {
+			$.post('../../phtools/PhDropDown/getLevel', {
+				tier1_code,
+				tier2_code,
+				tier3_id
+			}, function(data) {
+				$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
+				data.forEach(item => {
+					$('#level_code').append(`<option value="${item.level_code}">${item.level_name}</option>`);
+				});
+				$('#level_code').prop('disabled', false);
+			}, 'json');
+		}
+
+
+	});
+	$('#level_code').change(function() {
+		const tier1_code = $('#tier1_code').val();
+		const tier2_code = $('#tier2_code').val();
+		const tier3_id = $('#tier3_code').val();
+		const level_code = $(this).val();
+		if (level_code) {
+			$.post('../../phtools/PhDropDown/getStandardQualification', {
+				tier1_code,
+				tier2_code,
+				tier3_id,
+				level_code
+			}, function(data) {
+				if (data.length === 0) {
+					// $('#uoc').html('<div class="alert alert-danger">ไม่พบข้อมูล</div>');
+					// $('#uoc').show();
+					// $('#eoc').hide();
+				} else {
+					
+					$('#txt_occ_level').val(data[0].id);
+					chk_tp_exam_type();
+					$('#uoc').show();
+					$('#eoc').hide();
+					// alert(data[0].id)
+				}
+			}, 'json');
+		}
+	});
+
 });
 
 function get_dataforedit() {
@@ -121,7 +232,7 @@ $("#occ_level_id").change(function () {
 */
 //ประเภทการสร้างข้อสอบ
 $("#exam_type").change(function () {
-	var occ_level_id = $("#occ_level_id1").val();
+	var occ_level_id = $("#txt_occ_level").val();
 	var template_type = $("#template_type").val();
 
 	if (occ_level_id != 0) {
@@ -148,7 +259,7 @@ $("#template_type").change(function () {
 
 //เช็คประเภทแม่แบบ และประเภทการสร้างชุดข้อสอบ
 function chk_tp_exam_type() {
-	var occ_level_id = $("#occ_level_id1").val();
+	var occ_level_id = $("#txt_occ_level").val();
 	occ_level_id = occ_level_id;
 
 	if (occ_level_id != 0) {
@@ -162,7 +273,7 @@ function chk_tp_exam_type() {
 function check_select_tp() {
 	var exam_type = $("#exam_type").val();
 	var asm_tool = $("#asm_tool").val();
-	var occ_level_id = $("#occ_level_id1").val();
+	var occ_level_id = $("#txt_occ_level").val();
 	var template_type = $("#template_type").val();
 	var template_id = $("#template_id").val();
 	
@@ -189,7 +300,7 @@ function check_select_tp() {
 function check_select_tp_grp(uoc_code, eoc_code, row_idx) {
 	var exam_type = $("#exam_type").val();
 	var asm_tool = $("#asm_tool").val();
-	var occ_level_id = $("#occ_level_id1").val();
+	var occ_level_id = $("#txt_occ_level").val();
 
 	if (exam_type == "2") {
 		//ตาม uoc ถาม-ตอบ
@@ -318,40 +429,24 @@ function upload_file() {
 }
 
 //ดึงข้อมูล uoc มาแสดง
-function get_uoc_list(occ_level_id, asm_tool) {
+function get_uoc_list(occ_level_id, asm_tool, template_type = null) {
 	/*console.log("occ_level_id => " + occ_level_id);
 	console.log("asm_tool => " + asm_tool);*/
+
+	const data = {
+		asm_tool: asm_tool,
+		occ_level_id: occ_level_id,
+		template_id: $("#template_id").val(),
+	};
+
+	if (template_type) {
+		data.template_type = template_type;
+	}
 
 	$.ajax({
 		url: "../../shared/Shared/get_uoc",
 		method: "POST",
-		data: {
-			asm_tool: asm_tool,
-			occ_level_id: occ_level_id,
-			template_id: $("#template_id").val(),
-		},
-		success: function (data) {
-			//console.log("uoc:" + data);
-			$("#uoc").empty();
-			$("#uoc").show();
-			$("#uoc").html(data);
-		},
-	});
-}
-
-function get_uoc_list(occ_level_id, asm_tool,template_type) {
-	/*console.log("occ_level_id => " + occ_level_id);
-	console.log("asm_tool => " + asm_tool);*/
-
-	$.ajax({
-		url: "../../shared/Shared/get_uoc",
-		method: "POST",
-		data: {
-			asm_tool: asm_tool,
-			occ_level_id: occ_level_id,
-			template_type: template_type,
-			template_id: $("#template_id").val(),
-		},
+		data: data,
 		success: function (data) {
 			//console.log("uoc:" + data);
 			$("#uoc").empty();

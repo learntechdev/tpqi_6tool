@@ -6,7 +6,7 @@ services:
     volumes:
       - ./src:/var/www/html
     ports:
-      - "8080:80"
+      - "2052:80"
     depends_on:
       - mysql
   mysql:
@@ -17,7 +17,7 @@ services:
       MYSQL_USER: tpqi
       MYSQL_PASSWORD: db@tpqi
     ports:
-      - "3306:3306"
+      - "3308:3306"
     volumes:
       - mysql_data8:/var/lib/mysql
 

@@ -64,9 +64,9 @@
                                                     id="occ_level" name="occ_level" required="" data-live-search="true">
                                                     <option value="0">--ทั้งหมด--</option>
                                                     <?php foreach ($occ_level as $v) { ?>
-                                                    <option value="<?php echo $v->id; ?>">
-                                                        <?php echo $v->occ_level; ?>
-                                                    </option>
+                                                        <option value="<?php echo $v->id; ?>">
+                                                            <?php echo $v->occ_level; ?>
+                                                        </option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
@@ -79,7 +79,7 @@
                                                 เกณฑ์การให้คะแนน
                                             </label>
                                             <div class="col-md-10">
-                                                <?php require_once dirname(__FILE__) . "../../criteria_asm/form_examier_advise_type1.php"; ?>
+                                                <?php require_once dirname(__FILE__) . "../../criteria_asm/form_examier_advise_type.php"; ?>
                                             </div>
                                         </div>
                                     </div>

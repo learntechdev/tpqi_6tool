@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <span class="label_head">สร้างข้อสอบ สัมภาษณ์</span>
-							
+
                             <hr />
                         </div>
 
@@ -32,30 +32,30 @@
                                             <input type="hidden" class="form-control" id="copy_tp_id" name="copy_tp_id"
                                                 value="" />
                                             <?php
-                                                $tmp_tp_id = "";
+                                            $tmp_tp_id = "";
 
-                                                if (isset($_POST['template_id'])) {
-                                                    $_SESSION['template_id'] = $_POST['template_id'];
-                                                    $tmp_tp_id = $_POST['template_id'];
-                                                    $asm_tool_type = $_POST['asm_tool_type'];
-                                                } else {
-                                                    $_SESSION['template_id'] = '';
-                                                    $tmp_tp_id = '';
-                                                    //$asm_tool_type = '';
-                                                    $asm_tool_type = $asm_tool_type;
-                                                }
+                                            if (isset($_POST['template_id'])) {
+                                                $_SESSION['template_id'] = $_POST['template_id'];
+                                                $tmp_tp_id = $_POST['template_id'];
+                                                $asm_tool_type = $_POST['asm_tool_type'];
+                                            } else {
+                                                $_SESSION['template_id'] = '';
+                                                $tmp_tp_id = '';
+                                                //$asm_tool_type = '';
+                                                $asm_tool_type = $asm_tool_type;
+                                            }
 
-                                                if (isset($_POST['contract_no'])) {
-                                                    $strContractNo = $_POST['contract_no'];
-                                                } else {
-                                                    $strContractNo = "";
-                                                }
-												
-												if (isset($_POST['level_id'])) {
-                                                    $strLevelId = $_POST['level_id'];
-                                                } else {
-                                                    $strLevelId = "";
-                                                }
+                                            if (isset($_POST['contract_no'])) {
+                                                $strContractNo = $_POST['contract_no'];
+                                            } else {
+                                                $strContractNo = "";
+                                            }
+
+                                            if (isset($_POST['level_id'])) {
+                                                $strLevelId = $_POST['level_id'];
+                                            } else {
+                                                $strLevelId = "";
+                                            }
                                             ?>
 
                                             <input type="hidden" class="form-control" id="template_id" name="template_id" value="<?= $tmp_tp_id ?>" />
@@ -65,117 +65,125 @@
                                     </div>
 
                                     <div class="row">
-									
+
                                         <label class="col-md-2 col-form-label"> คุณวุฒิวิชาชีพ</label>
-										
+
                                         <div class="col-md-4" style="padding-bottom:5px">
                                             <input type="hidden" id="txt_occ_level" name="txt_occ_level">
                                             <select class="form-control occ_level" data-dropup-auto="false"
                                                 id="occ_level_id" name="occ_level_id" required=""
-                                                data-live-search="true"> 
-                                        <!--        <option value="0">--กรุณาเลือก--</option>   --> 
-											<?php	foreach ($occ_level as $v) { if($v->id==$strLevelId){  ?>
-															<option value="<?php  echo $strLevelId; ?>">
-																<?php  echo $v->occ_level; ?>
-															</option> 
-											<?php	}	} ?>
+                                                data-live-search="true">
+                                                <!--        <option value="0">--กรุณาเลือก--</option>   -->
+                                                <?php foreach ($occ_level as $v) {
+                                                    if ($v->id == $strLevelId) {  ?>
+                                                        <option value="<?php echo $strLevelId; ?>">
+                                                            <?php echo $v->occ_level; ?>
+                                                        </option>
+                                                <?php    }
+                                                } ?>
                                                 <?php foreach ($occ_level as $v) { ?>
-                                                <option value="<?php echo $v->id; ?>">
-                                                    <?php echo $v->occ_level; ?>
-                                                </option>;
-                                                <?php } 
-												?>
+                                                    <option value="<?php echo $v->id; ?>">
+                                                        <?php echo $v->occ_level; ?>
+                                                    </option>;
+                                                <?php }
+                                                ?>
                                             </select>
-											
+
                                         </div>
-										<div class="row">
-										<label class="col-md-3 col-form-label"> คุณวุฒิวิชาชีพ</label>
-										
-                                        <div class="col-md-4" style="padding-bottom:5px">
-                                            <input type="hidden" id="txt_occ_level" name="txt_occ_level">
-                                            <select class="form-control occ_level" data-dropup-auto="false"
-                                                id="occ_level_id" name="occ_level_id" required=""
-                                                data-live-search="true"> 
-                                        <!--        <option value="0">--กรุณาเลือก--</option>   --> 
-											<?php	foreach ($occ_level as $v) { if($v->id==$strLevelId){  ?>
-															<option value="<?php  echo $strLevelId; ?>">
-																<?php  echo $v->occ_level; ?>
-															</option> 
-											<?php	}	} ?>
-                                                <?php foreach ($occ_level as $v) { ?>
-                                                <option value="<?php echo $v->id; ?>">
-                                                    <?php echo $v->occ_level; ?>
-                                                </option>;
-                                                <?php } 
-												?>
-                                            </select>
-											
+                                        <div class="row">
+                                            <label class="col-md-3 col-form-label"> คุณวุฒิวิชาชีพ</label>
+
+                                            <div class="col-md-4" style="padding-bottom:5px">
+                                                <input type="hidden" id="txt_occ_level" name="txt_occ_level">
+                                                <select class="form-control occ_level" data-dropup-auto="false"
+                                                    id="occ_level_id" name="occ_level_id" required=""
+                                                    data-live-search="true">
+                                                    <!--        <option value="0">--กรุณาเลือก--</option>   -->
+                                                    <?php foreach ($occ_level as $v) {
+                                                        if ($v->id == $strLevelId) {  ?>
+                                                            <option value="<?php echo $strLevelId; ?>">
+                                                                <?php echo $v->occ_level; ?>
+                                                            </option>
+                                                    <?php    }
+                                                    } ?>
+                                                    <?php foreach ($occ_level as $v) { ?>
+                                                        <option value="<?php echo $v->id; ?>">
+                                                            <?php echo $v->occ_level; ?>
+                                                        </option>;
+                                                    <?php }
+                                                    ?>
+                                                </select>
+
+                                            </div>
+
+
                                         </div>
-										
-										
-										</div>
-										
+
                                     </div>
 
-									<div class="row">
-									
-                                        <label class="col-md-2 col-form-label"> คุณวุฒิวิชาชีพ</label>
-										
-                                        <div class="col-md-4" style="padding-bottom:5px">
-                                            <input type="hidden" id="txt_occ_level" name="txt_occ_level">
-                                            <select class="form-control occ_level" data-dropup-auto="false"
-                                                id="occ_level_id" name="occ_level_id" required=""
-                                                data-live-search="true"> 
-                                        <!--        <option value="0">--กรุณาเลือก--</option>   --> 
-											<?php	foreach ($occ_level as $v) { if($v->id==$strLevelId){  ?>
-															<option value="<?php  echo $strLevelId; ?>">
-																<?php  echo $v->occ_level; ?>
-															</option> 
-											<?php	}	} ?>
-                                                <?php foreach ($occ_level as $v) { ?>
-                                                <option value="<?php echo $v->id; ?>">
-                                                    <?php echo $v->occ_level; ?>
-                                                </option>;
-                                                <?php } 
-												?>
-                                            </select>
-											
-                                        </div>
-										<div class="row">
-										<label class="col-md-3 col-form-label"> คุณวุฒิวิชาชีพ</label>
-										
-                                        <div class="col-md-4" style="padding-bottom:5px">
-                                            <input type="hidden" id="txt_occ_level" name="txt_occ_level">
-                                            <select class="form-control occ_level" data-dropup-auto="false"
-                                                id="occ_level_id" name="occ_level_id" required=""
-                                                data-live-search="true"> 
-                                        <!--        <option value="0">--กรุณาเลือก--</option>   --> 
-											<?php	foreach ($occ_level as $v) { if($v->id==$strLevelId){  ?>
-															<option value="<?php  echo $strLevelId; ?>">
-																<?php  echo $v->occ_level; ?>
-															</option> 
-											<?php	}	} ?>
-                                                <?php foreach ($occ_level as $v) { ?>
-                                                <option value="<?php echo $v->id; ?>">
-                                                    <?php echo $v->occ_level; ?>
-                                                </option>;
-                                                <?php } 
-												?>
-                                            </select>
-											
-                                        </div>
-										
-										
-										</div>
-										
-                                    </div>
-									
-                                    <?php require_once dirname(__FILE__) . "../../shared/template_type.php"; ?>
-									
                                     <div class="row">
-                                <!--        <label class="col-md-2 col-form-label"> เกณฑ์การให้คะแนน</label>   -->
+
+                                        <label class="col-md-2 col-form-label"> คุณวุฒิวิชาชีพ</label>
+
+                                        <div class="col-md-4" style="padding-bottom:5px">
+                                            <input type="hidden" id="txt_occ_level" name="txt_occ_level">
+                                            <select class="form-control occ_level" data-dropup-auto="false"
+                                                id="occ_level_id" name="occ_level_id" required=""
+                                                data-live-search="true">
+                                                <!--        <option value="0">--กรุณาเลือก--</option>   -->
+                                                <?php foreach ($occ_level as $v) {
+                                                    if ($v->id == $strLevelId) {  ?>
+                                                        <option value="<?php echo $strLevelId; ?>">
+                                                            <?php echo $v->occ_level; ?>
+                                                        </option>
+                                                <?php    }
+                                                } ?>
+                                                <?php foreach ($occ_level as $v) { ?>
+                                                    <option value="<?php echo $v->id; ?>">
+                                                        <?php echo $v->occ_level; ?>
+                                                    </option>;
+                                                <?php }
+                                                ?>
+                                            </select>
+
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-3 col-form-label"> คุณวุฒิวิชาชีพ</label>
+
+                                            <div class="col-md-4" style="padding-bottom:5px">
+                                                <input type="hidden" id="txt_occ_level" name="txt_occ_level">
+                                                <select class="form-control occ_level" data-dropup-auto="false"
+                                                    id="occ_level_id" name="occ_level_id" required=""
+                                                    data-live-search="true">
+                                                    <!--        <option value="0">--กรุณาเลือก--</option>   -->
+                                                    <?php foreach ($occ_level as $v) {
+                                                        if ($v->id == $strLevelId) {  ?>
+                                                            <option value="<?php echo $strLevelId; ?>">
+                                                                <?php echo $v->occ_level; ?>
+                                                            </option>
+                                                    <?php    }
+                                                    } ?>
+                                                    <?php foreach ($occ_level as $v) { ?>
+                                                        <option value="<?php echo $v->id; ?>">
+                                                            <?php echo $v->occ_level; ?>
+                                                        </option>;
+                                                    <?php }
+                                                    ?>
+                                                </select>
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <?php require_once dirname(__FILE__) . "../../shared/template_type.php"; ?>
+
+                                    <div class="row">
+                                        <!--        <label class="col-md-2 col-form-label"> เกณฑ์การให้คะแนน</label>   -->
                                         <div class="col-md-10">
-                                            <?php require_once dirname(__FILE__) . "../../criteria_asm/form_examier_advise_type1.php"; ?>
+                                            <?php require_once dirname(__FILE__) . "../../criteria_asm/form_examier_advise_type.php"; ?>
                                         </div>
                                     </div>
                                     <br />

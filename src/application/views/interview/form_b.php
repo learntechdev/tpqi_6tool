@@ -31,24 +31,24 @@
                                             <input type="hidden" class="form-control" id="copy_tp_id" name="copy_tp_id"
                                                 value="" />
                                             <?php
-                                                $tmp_tp_id = "";
+                                            $tmp_tp_id = "";
 
-                                                if (isset($_POST['template_id'])) {
-                                                    $_SESSION['template_id'] = $_POST['template_id'];
-                                                    $tmp_tp_id = $_POST['template_id'];
-                                                    $asm_tool_type = $_POST['asm_tool_type'];
-                                                } else {
-                                                    $_SESSION['template_id'] = '';
-                                                    $tmp_tp_id = '';
-                                                    //$asm_tool_type = '';
-                                                    $asm_tool_type = $asm_tool_type;
-                                                }
+                                            if (isset($_POST['template_id'])) {
+                                                $_SESSION['template_id'] = $_POST['template_id'];
+                                                $tmp_tp_id = $_POST['template_id'];
+                                                $asm_tool_type = $_POST['asm_tool_type'];
+                                            } else {
+                                                $_SESSION['template_id'] = '';
+                                                $tmp_tp_id = '';
+                                                //$asm_tool_type = '';
+                                                $asm_tool_type = $asm_tool_type;
+                                            }
 
-                                                if (isset($_POST['contract_no'])) {
-                                                    $strContractNo = $_POST['contract_no'];
-                                                } else {
-                                                    $strContractNo = "";
-                                                }
+                                            if (isset($_POST['contract_no'])) {
+                                                $strContractNo = $_POST['contract_no'];
+                                            } else {
+                                                $strContractNo = "";
+                                            }
                                             ?>
 
                                             <input type="hidden" class="form-control" id="template_id" name="template_id" value="<?= $tmp_tp_id ?>" />
@@ -66,9 +66,9 @@
                                                 data-live-search="true">
                                                 <option value="0">--กรุณาเลือก--</option>
                                                 <?php foreach ($occ_level as $v) { ?>
-                                                <option value="<?php echo $v->id; ?>">
-                                                    <?php echo $v->occ_level; ?>
-                                                </option>;
+                                                    <option value="<?php echo $v->id; ?>">
+                                                        <?php echo $v->occ_level; ?>
+                                                    </option>;
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -79,7 +79,7 @@
                                     <div class="row">
                                         <label class="col-md-2 col-form-label"> เกณฑ์การให้คะแนน</label>
                                         <div class="col-md-10">
-                                            <?php require_once dirname(__FILE__) . "../../criteria_asm/form_examier_advise_type1.php"; ?>
+                                            <?php require_once dirname(__FILE__) . "../../criteria_asm/form_examier_advise_type.php"; ?>
                                         </div>
                                     </div>
                                     <br />

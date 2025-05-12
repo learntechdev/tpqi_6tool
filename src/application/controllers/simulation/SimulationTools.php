@@ -12,13 +12,17 @@ class SimulationTools extends CI_Controller
         $this->load->model("simulation/SimulationToolsModel");
         $this->load->model("interview/InterviewModel");
         $this->load->model("shared/SharedModel");
+
     }
 
     public function create()
     {
         unset($_SESSION["template_id"]);
         $data["occ_level"] = $this->MasterDataModel->get_occ_level();
-		$data["occ_level2"] = $this->MasterDataModel->get_occ_level_seperate();
+		//$data["occ_level2"] = $this->MasterDataModel->get_occ_level_seperate();
+        $data["occ_level"] = $this->MasterDataModel->get_occ_level();
+        $data["tier1"] = $this->MasterDataModel->get_occ_tier1_dropdown();
+
 
         if (isset($_POST['action'])) {
             if ($_POST['action'] == 'update') {
@@ -33,7 +37,11 @@ class SimulationTools extends CI_Controller
         $data["active_title"] = array("active_title" => "สร้างข้อสอบ");
         $data["uoc"] = null;
         $data["eoc"] = null;
-        $data["asm_tool_type"] = $_POST["asm_tool_type"];
+        $data["asm_tool_type"] = null;
+        if (isset($_POST["asm_tool_type"])) {
+            $data["asm_tool_type"] = $_POST["asm_tool_type"];
+        }
+
 
         $this->SharedModel->layouts("simulation/form", $data);
     }

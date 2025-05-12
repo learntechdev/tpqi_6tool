@@ -60,9 +60,9 @@
                                                 data-live-search="true">
                                                 <option value="0">--กรุณาเลือก--</option>
                                                 <?php foreach ($occ_level as $v) { ?>
-                                                <option value="<?php echo $v->id; ?>">
-                                                    <?php echo $v->occ_level; ?>
-                                                </option>
+                                                    <option value="<?php echo $v->id; ?>">
+                                                        <?php echo $v->occ_level; ?>
+                                                    </option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -71,7 +71,7 @@
                                     <div class="row">
                                         <label class="col-md-2 col-form-label">เกณฑ์การให้คะแนน</label>
                                         <div class="col-md-10">
-                                            <?php require_once dirname(__FILE__) . "../../criteria_asm/form_examier_advise_type1.php"; ?>
+                                            <?php require_once dirname(__FILE__) . "../../criteria_asm/form_examier_advise_type.php"; ?>
                                         </div>
                                     </div>
                                     <br />

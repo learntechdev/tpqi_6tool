@@ -1,6 +1,6 @@
-<?php $this->load->view("breadcrumb/breadcrumb", $breadcrumb); 
-	$list_uoc = $this->MasterDataModel->fetch_uoc($_POST["occ_level_id"]);
-	$x = count($list_uoc);
+<?php $this->load->view("breadcrumb/breadcrumb", $breadcrumb);
+$list_uoc = $this->MasterDataModel->fetch_uoc($_POST["occ_level_id"]);
+$x = count($list_uoc);
 ?>
 
 <section class="content">
@@ -13,8 +13,8 @@
                 </div>
                 <form id="form" name="form">
                     <div class="col-md-12">
-					<div class="overlay" id="overlay"></div>
-    
+                        <div class="overlay" id="overlay"></div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <?php
@@ -29,11 +29,11 @@
                                 if (isset($_POST['contract_no'])) {
                                     $strContractNo = $_POST['contract_no'];
                                 }
-								if (isset($_POST['level_id'])) {
-                                                    $strLevelId = $_POST['level_id'];
-                                                } else {
-                                                    $strLevelId = "";
-                                                }
+                                if (isset($_POST['level_id'])) {
+                                    $strLevelId = $_POST['level_id'];
+                                } else {
+                                    $strLevelId = "";
+                                }
                                 ?>
 
                                 <input type="hidden" class="form-control" id="action" name="action"
@@ -67,16 +67,18 @@
                                     <input type="hidden" class="form-control" id="txt_occ_level" name="txt_occ_level" />
                                     <select class="form-control occ_level" data-dropup-auto="false" id="occ_level"
                                         name="occ_level" required="" data-live-search="true">
-                                 <!--       <option value="0">--ทั้งหมด--</option>   -->
-								 <?php	foreach ($occ_level as $v) { if($v->id==$strLevelId){  ?>
-															<option value="<?php  echo $strLevelId; ?>">
-																<?php  echo $v->occ_level; ?>
-															</option> 
-											<?php	}	} ?>
+                                        <!--       <option value="0">--ทั้งหมด--</option>   -->
+                                        <?php foreach ($occ_level as $v) {
+                                            if ($v->id == $strLevelId) {  ?>
+                                                <option value="<?php echo $strLevelId; ?>">
+                                                    <?php echo $v->occ_level; ?>
+                                                </option>
+                                        <?php    }
+                                        } ?>
                                         <?php foreach ($occ_level as $v) { ?>
-                                        <option value="<?php echo $v->id; ?>">
-                                            <?php echo $v->occ_level; ?>
-                                        </option>
+                                            <option value="<?php echo $v->id; ?>">
+                                                <?php echo $v->occ_level; ?>
+                                            </option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -86,7 +88,7 @@
                             <div class="row">
                                 <label class="col-md-2 col-form-label">เกณฑ์การให้คะแนน</label>
                                 <div class="col-md-10">
-                                    <?php require_once dirname(__FILE__) . "../../../criteria_asm/form_examier_advise_type1.php"; ?>
+                                    <?php require_once dirname(__FILE__) . "../../../criteria_asm/form_examier_advise_type.php"; ?>
                                 </div>
                             </div>
                         </div>

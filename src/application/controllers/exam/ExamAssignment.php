@@ -99,7 +99,7 @@ class ExamAssignment extends CI_Controller
         ];
 		
 			 
-				$_SESSION["occ_level_id"] = $occ_id;
+		$_SESSION["occ_level_id"] = $occ_id;
 				
 			
 		

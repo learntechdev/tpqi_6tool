@@ -516,11 +516,15 @@ class MasterDataModel extends CI_Model
         ];
         return $exam_type_arr;
          */
+        $condition = "status = '1'";
+        if (!empty($asm_tool)) {
+            $condition = "asm_tool = '" . $asm_tool . "' AND status = '1'";
+        }
+
         $sql = " SELECT exam_type,name FROM settings_template t
                 LEFT JOIN settings_exam_type exam_type
                 ON t.exam_type = exam_type.id
-                WHERE asm_tool = '" . $asm_tool . "'
-                AND status = '1' GROUP BY exam_type ";
+                WHERE " . $condition . " GROUP BY exam_type ";
         return $this->BaseModel->get_all($sql);
     }
 
@@ -664,8 +668,112 @@ class MasterDataModel extends CI_Model
 			}
 		}
     }
-	
-	public function get_occ_level_seperate($filter = array())
+
+    public function get_occ_tier1_dropdown($filter = array())
+    {
+        $sql = "";
+        $condition = "";
+        $occ_authorized =  $this->loadAuthorizedOcc();
+        $userType = $_SESSION['user_type'];
+        if ($userType == 1) {
+            $sql = " SELECT distinct tier1_code, tier1_title FROM standard_qualification ";
+            return $this->BaseModel->get_all($sql);
+        } else {
+            // if (($occ_authorized != '0' || $occ_authorized != '' || $occ_authorized != NULL) && $userType != "1") {
+            //     $condition = " WHERE  id in($occ_authorized) ";
+            //     $sql = " SELECT distinct tier1_code, tier1_title FROM standard_qualification " . $condition;
+            //     return $this->BaseModel->get_all($sql);
+            // } else {
+            //     return null;
+            // }
+            if (!empty($occ_authorized) && $userType != "1") {
+                $condition = "";
+                if (is_array($occ_authorized)) {
+                    $condition = " WHERE  id in($occ_authorized) ";
+                }
+
+                $sql = " SELECT distinct tier1_code, tier1_title FROM standard_qualification " . $condition;
+                return $this->BaseModel->get_all($sql);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public function get_occ_tier2_dropdown($filter = array())
+    {
+        $sql = "";
+        $condition = "";
+        $occ_authorized =  $this->loadAuthorizedOcc();
+        $userType = $_SESSION['user_type'];
+        if ($userType == 1) {
+            $sql = " SELECT distinct tier2_code, tier2_title FROM standard_qualification ";
+            return $this->BaseModel->get_all($sql);
+        } else {
+            if (!empty($occ_authorized) && $userType != "1") {
+                $condition = "";
+                if (is_array($occ_authorized)) {
+                    $condition = " WHERE  id in($occ_authorized) ";
+                }
+
+                $sql = " SELECT distinct tier2_code, tier2_title FROM standard_qualification " . $condition;
+                return $this->BaseModel->get_all($sql);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public function get_occ_tier3_dropdown($filter = array())
+    {
+        $sql = "";
+        $condition = "";
+        $occ_authorized =  $this->loadAuthorizedOcc();
+        $userType = $_SESSION['user_type'];
+        if ($userType == 1) {
+            $sql = " SELECT distinct tier3_id, tier3_title FROM standard_qualification ";
+            return $this->BaseModel->get_all($sql);
+        } else {
+            if (!empty($occ_authorized) && $userType != "1") {
+                $condition = "";
+                if (is_array($occ_authorized)) {
+                    $condition = " WHERE  id in($occ_authorized) ";
+                }
+
+                $sql = " SELECT distinct tier3_id, tier3_title FROM standard_qualification " . $condition;
+                return $this->BaseModel->get_all($sql);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public function get_occ_level_dropdown($filter = array())
+    {
+        $sql = "";
+        $condition = "";
+        $occ_authorized = $this->loadAuthorizedOcc();
+        $userType = $_SESSION['user_type'];
+        if ($userType == 1) {
+            $sql = " SELECT distinct level_code, level_name FROM standard_qualification ";
+            return $this->BaseModel->get_all($sql);
+        } else {
+            if (!empty($occ_authorized) && $userType != "1") {
+                $condition = "";
+                if (is_array($occ_authorized)) {
+                    $condition = " WHERE id in($occ_authorized) ";
+                }
+
+                $sql = " SELECT distinct level_code, level_name FROM standard_qualification " . $condition;
+                return $this->BaseModel->get_all($sql);
+            } else {
+                return null;
+            }
+        }
+    }
+
+
+    public function get_occ_level_seperate($filter = array())
     {
         $sql = "";
         $condition = "";

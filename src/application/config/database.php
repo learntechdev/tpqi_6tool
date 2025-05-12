@@ -74,8 +74,8 @@ $active_group = 'default';
 $query_builder = true;
 
 $db['default'] = array(
-    'dsn' => '',
-    'hostname' => 'localhost',
+    'hostname' => 'mysql',
+    'port' => 3306,
     'username' => 'tpqi',
     'password' => 'db@tpqi',
     'database' => 'tpqinet_asm_uat2',
