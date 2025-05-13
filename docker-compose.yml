@@ -2,6 +2,7 @@ services:
   php:
     image: php:7.4-apache
     build:
+      context: .
       dockerfile: Dockerfile
     volumes:
       - ./src:/var/www/html
@@ -16,6 +17,7 @@ services:
       MYSQL_DATABASE: tpqinet_asm_uat2
       MYSQL_USER: tpqi
       MYSQL_PASSWORD: db@tpqi
+      MYSQL_INITDB_ARGS: "--sql-mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'"
     ports:
       - "3308:3306"
     volumes:
