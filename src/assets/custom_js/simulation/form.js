@@ -2,10 +2,13 @@ $(document).ready(function () {
 	$(".occ_level").select2();
 	$(".exam_type").select2();
 	$(".template_type").select2();
-	$('#tier2_code, #tier3_code, #level_code').prop('disabled', true);
-	$('#tier2_code').html('<option value="">--กรุณาเลือกสาขา--</option>');
-	$('#tier3_code').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
-	$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
+	
+	$('#tier1_code, #tier2_code, #tier3_id, #level_code').prop('disabled', true);
+	
+	
+	// $('#tier2_code').html('<option value="">--กรุณาเลือกสาขา--</option>');
+	// $('#tier3_id').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+	// $('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
 
 	CKEDITOR.replace("desc_for_examier", {
 		fullPage: false, // ถ้ากำหนดเป็น false จะลบแท็ก HEAD/BODY/HTML ออกไม่ต้องเก็บลง db
@@ -30,16 +33,17 @@ $(document).ready(function () {
 	});
 
 	get_dataforedit();
+
 	$('#tier1_code').change(function() {
-		$('#tier2_code, #tier3_code, #level_code').prop('disabled', true);
+		$('#tier2_code, #tier3_id, #level_code').prop('disabled', true);
 		$('#tier2_code').html('<option value="">--กรุณาเลือกสาขา--</option>');
-		$('#tier3_code').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+		$('#tier3_id').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
 		$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
 		const tier1_code = $(this).val();
 		// alert(tier1_code);
 		if (tier1_code) {
 			
-			$.post('../../phtools/PhDropDown/getTier2', {
+			$.post('../../phtools/PhDropDown/get_tier2', {
 				tier1_code
 			}, function(data) {
 				// alert(data.length + ' ' + data[0].tier2_code)
@@ -69,32 +73,32 @@ $(document).ready(function () {
 	$('#tier2_code').change(function() {
 		const tier1_code = $('#tier1_code').val();
 		const tier2_code = $(this).val();
-		$('#tier3_code, #level_code').prop('disabled', true);
-		$('#tier3_code').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+		$('#tier3_id, #level_code').prop('disabled', true);
+		$('#tier3_id').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
 		$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
 		// if (tier2_code) {
-		$.post('../../phtools/PhDropDown/getTier3', {
+		$.post('../../phtools/PhDropDown/get_tier3', {
 			tier1_code,
 			tier2_code
 		}, function(data) {
-			$('#tier3_code').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+			$('#tier3_id').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
 			data.forEach(item => {
-				$('#tier3_code').append(`<option value="${item.tier3_id}">${item.tier3_title}</option>`);
+				$('#tier3_id').append(`<option value="${item.tier3_id}">${item.tier3_title}</option>`);
 			});
-			$('#tier3_code').prop('disabled', false);
+			$('#tier3_id').prop('disabled', false);
 		}, 'json');
 		// }
 
 
 	});
 
-	$('#tier3_code').change(function() {
+	$('#tier3_id').change(function() {
 		const tier1_code = $('#tier1_code').val();
 		const tier2_code = $('#tier2_code').val();
 		const tier3_id = $(this).val();
 		$('#level_code').prop('disabled', true).html('<option value="">--กรุณาเลือกชั้น--</option>');
 		if (tier3_id) {
-			$.post('../../phtools/PhDropDown/getLevel', {
+			$.post('../../phtools/PhDropDown/get_level', {
 				tier1_code,
 				tier2_code,
 				tier3_id
@@ -112,10 +116,10 @@ $(document).ready(function () {
 	$('#level_code').change(function() {
 		const tier1_code = $('#tier1_code').val();
 		const tier2_code = $('#tier2_code').val();
-		const tier3_id = $('#tier3_code').val();
+		const tier3_id = $('#tier3_id').val();
 		const level_code = $(this).val();
 		if (level_code) {
-			$.post('../../phtools/PhDropDown/getStandardQualification', {
+			$.post('../../phtools/PhDropDown/get_standard_qualification', {
 				tier1_code,
 				tier2_code,
 				tier3_id,
@@ -128,6 +132,11 @@ $(document).ready(function () {
 				} else {
 					
 					$('#txt_occ_level').val(data[0].id);
+					$('#txt_tier1_code').val(data[0].tier1_code);
+					$('#txt_tier2_code').val(data[0].tier2_code);
+					$('#txt_tier3_id').val(data[0].tier3_id);
+					$('#txt_level_code').val(data[0].level_code);
+					
 					chk_tp_exam_type();
 					$('#uoc').show();
 					$('#eoc').hide();
@@ -136,6 +145,9 @@ $(document).ready(function () {
 			}, 'json');
 		}
 	});
+
+	
+
 
 });
 
@@ -437,6 +449,7 @@ function get_uoc_list(occ_level_id, asm_tool, template_type = null) {
 		asm_tool: asm_tool,
 		occ_level_id: occ_level_id,
 		template_id: $("#template_id").val(),
+		default_score: $("#default_score").val(),
 	};
 
 	if (template_type) {
@@ -493,6 +506,7 @@ function get_uoc_eoc(occ_level_id, asm_tool) {
 			asm_tool: asm_tool,
 			occ_level_id: occ_level_id,
 			template_id: $("#template_id").val(),
+			default_score: $("#default_score").val(),
 		},
 		success: function (data) {
 			//console.log("uoc:" + data);

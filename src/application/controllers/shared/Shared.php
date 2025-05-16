@@ -14,8 +14,15 @@ class Shared extends CI_Controller
         $data["uoc"] = $this->MasterDataModel->fetch_uoc($_POST["occ_level_id"]);
         $data["template"] = $_POST["template_id"];
         $data["asm_tool"] = $_POST["asm_tool"];
+        $data["default_score"] = $_POST["default_score"];
+        $data["template_type"] = $_POST["template_type"];
+
         //print_r($data);
-        $this->load->view("std_list/uoc", $data);
+        if ($data["template_type"] == 1) {
+            $this->load->view("std_list/uoc_chklist", $data);
+        } else if ($data["template_type"] == 3) {
+            $this->load->view("std_list/uoc", $data);
+        }
     }
 
     public function get_eoc()
@@ -24,6 +31,7 @@ class Shared extends CI_Controller
         $data["uoc"] = $this->MasterDataModel->fetch_uoc($_POST["occ_level_id"]);
         $data["template"] = $_POST["template_id"];
         $data["asm_tool"] = $_POST["asm_tool"];
+        $data["default_score"] = $_POST["default_score"];
         $this->load->view("std_list/eoc", $data);
     }
 

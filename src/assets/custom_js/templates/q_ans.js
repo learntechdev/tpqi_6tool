@@ -68,6 +68,7 @@ function add_q_form(uoc_code, eoc_code, row_idx) {
 	var x = $("#count").val();
 	var i = $("#last_idx_sub_" + uoc_code + eoc_code).val();
 	var n_question = 0;
+	var default_score = $("#default_score").val();
 	
 	/*if (row_idx < tmp_last_ele) {
 		ele_id = parseInt(tmp_last_ele) + 1;
@@ -95,7 +96,7 @@ function add_q_form(uoc_code, eoc_code, row_idx) {
 		"'>" +
 		"<div class='card'>" +
 		"<div class='row' style='padding-right:10px;padding-left:10px;padding-top:10px'>" +
-		"<div class='col-md-7'>" +
+		"<div class='col-md-8'>" +
 		"<label >สถานะคำถาม</label> &nbsp; &nbsp; &nbsp; " +
 		"<input type='radio' value='1' checked id='list[" +
 		uoc_code +
@@ -132,11 +133,11 @@ function add_q_form(uoc_code, eoc_code, row_idx) {
 		"required='' data-live-search='true'>" +
         "<option value='0'>--กรุณาเลือก--</option>"  + 
         "<option value='1'>ผ่าน/ไม่ผ่าน</option>" +
-		"<option value='2'>คะแนนผ่าน</option>" +
-        "</select>" +
-		"<input class='col-md-1' style='display:none' type='text' id='marks_for_q' name='marks_for_q'>"+
+		"<option value='2' selected>คะแนนผ่าน</option>" +
+        "</select> " +
+		"<input class='col-md-2 marks_for_q_new' style='display:inline' type='text' id='marks_for_q' name='marks_for_q' value='"+default_score+"'>"+
 		"</div>" +
-		"<div class='col-md-5 text-right'>"+
+		"<div class='col-md-4 text-right'>"+
 		"<div class='btn-group  btn-group-sm edit-area' role='group'>";
 		if (x != 1) {
         form +=
@@ -217,6 +218,32 @@ function add_q_form(uoc_code, eoc_code, row_idx) {
 		"' >" +
 		i +
 		"</span></strong></label>" +
+		"&nbsp; &nbsp; &nbsp;" +
+		'<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#criteriaModal' + uoc_code + eoc_code + i + '">' +
+			'<i class="fa fa-list-alt"></i> เกณฑ์การให้คะแนน' +
+		'</button>' +
+
+		'<!-- Modal -->' +
+		'<div class="modal fade" id="criteriaModal' + uoc_code + eoc_code + i + '" tabindex="-1" role="dialog" aria-labelledby="criteriaModalLabel' + uoc_code + eoc_code + i + '" aria-hidden="true">' +
+			'<div class="modal-dialog modal-dialog-centered" role="document">' +
+				'<div class="modal-content">' +
+					'<div class="modal-header">' +
+						'<h5 class="modal-title" id="criteriaModalLabel' + uoc_code + eoc_code + i + '">เกณฑ์การให้คะแนน</h5>' +
+						'<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+							'<span aria-hidden="true">&times;</span>' +
+						'</button>' +
+					'</div>' +
+					'<div class="modal-body">' +
+						'<textarea class="form-control" rows="5" name="list[' + uoc_code + '][' + eoc_code + '][' + i + '][criteria]" placeholder="พิมพ์เกณฑ์การให้คะแนนที่นี่..."></textarea>' +
+					'</div>' +
+					'<div class="modal-footer">' +
+						'<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+		'</div>' +
+		'<br />' +
+		'<br />'+
 		"<textarea id='list[" +
 		uoc_code +
 		"][" +
@@ -292,6 +319,7 @@ function add_q_form2(uoc_code, eoc_code, row_idx, groupContainerId) {
 	var ele_id = "";
 	var i = $("#last_idx_sub_" + uoc_code + eoc_code).val();
 	var n_question = 0;
+	var default_score = $("#default_score").val();
 	
 
 	/*if (row_idx < tmp_last_ele) {
@@ -319,7 +347,7 @@ function add_q_form2(uoc_code, eoc_code, row_idx, groupContainerId) {
 		"'>" +
 		"<div class='card'>" +
 		"<div class='row' style='padding-right:10px;padding-left:10px;padding-top:10px'>" +
-		"<div class='col-md-7'>" +
+		"<div class='col-md-8'>" +
 		"<label >สถานะคำถาม</label> &nbsp; &nbsp; &nbsp; " +
 		"<input type='radio' value='1' checked id='list[" +
 		uoc_code +
@@ -356,11 +384,11 @@ function add_q_form2(uoc_code, eoc_code, row_idx, groupContainerId) {
 		"required='' data-live-search='true'>" +
         "<option value='0'>--กรุณาเลือก--</option>"  + 
         "<option value='1'>ผ่าน/ไม่ผ่าน</option>" +
-		"<option value='2'>คะแนนผ่าน</option>" +
-        "</select>" +
-		"<input class='col-md-1' style='display:none' type='text' id='g_marks_for_q' name='g_marks_for_q'>"+
+		"<option value='2' selected>คะแนนผ่าน</option>" +
+        "</select> " +
+		"<input class='col-md-2 marks_for_q_new' style='display:inline' type='text' id='g_marks_for_q' name='g_marks_for_q' value='"+default_score+"'>"+
 		"</div>" +
-		"<div class='col-md-5 text-right'>"+
+		"<div class='col-md-4 text-right'>"+
 		"<div class='btn-group  btn-group-sm edit-area' role='group'>"+
 /*        "<button type='button' class='btn btn-success2 add' onClick='' id='showPopup'>" +
         "<i class='fa fa-plus-circle' aria-hidden='true'><label style='padding-left:2px;'>UOC</label></i>"+
@@ -424,6 +452,32 @@ function add_q_form2(uoc_code, eoc_code, row_idx, groupContainerId) {
 		"' >" +
 		i +
 		"</span></strong></label>" +
+		"&nbsp; &nbsp; &nbsp;" +
+		'<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#criteriaModal' + uoc_code + eoc_code + i + '">' +
+			'<i class="fa fa-list-alt"></i> เกณฑ์การให้คะแนน' +
+		'</button>' +
+
+		'<!-- Modal -->' +
+		'<div class="modal fade" id="criteriaModal' + uoc_code + eoc_code + i + '" tabindex="-1" role="dialog" aria-labelledby="criteriaModalLabel' + uoc_code + eoc_code + i + '" aria-hidden="true">' +
+			'<div class="modal-dialog modal-dialog-centered" role="document">' +
+				'<div class="modal-content">' +
+					'<div class="modal-header">' +
+						'<h5 class="modal-title" id="criteriaModalLabel' + uoc_code + eoc_code + i + '">เกณฑ์การให้คะแนน</h5>' +
+						'<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+							'<span aria-hidden="true">&times;</span>' +
+						'</button>' +
+					'</div>' +
+					'<div class="modal-body">' +
+						'<textarea class="form-control" rows="5" name="list[' + uoc_code + '][' + eoc_code + '][' + i + '][criteria]" placeholder="พิมพ์เกณฑ์การให้คะแนนที่นี่..."></textarea>' +
+					'</div>' +
+					'<div class="modal-footer">' +
+						'<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+		'</div>' +
+		'<br />' +
+		'<br />'+
 		"<textarea id='list[" +
 		uoc_code +
 		"][" +
@@ -507,6 +561,7 @@ function add_q_grp_form(uoc_code, eoc_code, row_idx) {
 	var x = $("#count").val();
 	var n_question = 0;
 	var groupContainerId = "group_q_section_" + uoc_code + eoc_code + i;
+	var default_score = $("#default_score").val();
 	/*if (row_idx < tmp_last_ele) {
 		ele_id = parseInt(tmp_last_ele) + 1;
 		old_q = $("#last_idx_" + uoc_code).val();
@@ -633,7 +688,7 @@ function add_q_grp_form(uoc_code, eoc_code, row_idx) {
 		"<div id='" + groupContainerId + "'>" +
 		"<div class='card'>" +
 		"<div class='row' style='padding-right:10px;padding-left:10px;padding-top:10px'>" +
-		"<div class='col-md-7'>" +
+		"<div class='col-md-8'>" +
 		"<label >สถานะคำถาม</label> &nbsp; &nbsp; &nbsp; " +
 		"<input type='radio' value='1' checked id='list[" +
 		uoc_code +
@@ -670,11 +725,11 @@ function add_q_grp_form(uoc_code, eoc_code, row_idx) {
 		"required='' data-live-search='true'>" +
         "<option value='0'>--กรุณาเลือก--</option>"  + 
         "<option value='1'>ผ่าน/ไม่ผ่าน</option>" +
-		"<option value='2'>คะแนนผ่าน</option>" +
-        "</select>" +
-		"<input class='col-md-1' style='display:none' type='text' id='g_marks_for_q' name='g_marks_for_q'>"+
+		"<option value='2' selected>คะแนนผ่าน</option>" +
+        "</select> " + 
+		"<input class='col-md-2 marks_for_q_new' style='display:inline' type='text' id='g_marks_for_q' name='g_marks_for_q' value='"+default_score+"'>"+
 		"</div>" +
-		"<div class='col-md-5 text-right'>"+
+		"<div class='col-md-4 text-right'>"+
 		"<div class='btn-group  btn-group-sm edit-area' role='group'>"+
 /*        "<button type='button' class='btn btn-success2 add' onClick='' id='showPopup'>" +
         "<i class='fa fa-plus-circle' aria-hidden='true'><label style='padding-left:2px;'>UOC</label></i>"+
@@ -729,6 +784,32 @@ function add_q_grp_form(uoc_code, eoc_code, row_idx) {
 		"' >" +
 		i +
 		"</span></strong></label>" +
+		"&nbsp; &nbsp; &nbsp;" +
+		'<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#criteriaModal' + uoc_code + eoc_code + i + '">' +
+			'<i class="fa fa-list-alt"></i> เกณฑ์การให้คะแนน' +
+		'</button>' +
+
+		'<!-- Modal -->' +
+		'<div class="modal fade" id="criteriaModal' + uoc_code + eoc_code + i + '" tabindex="-1" role="dialog" aria-labelledby="criteriaModalLabel' + uoc_code + eoc_code + i + '" aria-hidden="true">' +
+			'<div class="modal-dialog modal-dialog-centered" role="document">' +
+				'<div class="modal-content">' +
+					'<div class="modal-header">' +
+						'<h5 class="modal-title" id="criteriaModalLabel' + uoc_code + eoc_code + i + '">เกณฑ์การให้คะแนน</h5>' +
+						'<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+							'<span aria-hidden="true">&times;</span>' +
+						'</button>' +
+					'</div>' +
+					'<div class="modal-body">' +
+						'<textarea class="form-control" rows="5" name="list[' + uoc_code + '][' + eoc_code + '][' + i + '][criteria]" placeholder="พิมพ์เกณฑ์การให้คะแนนที่นี่..."></textarea>' +
+					'</div>' +
+					'<div class="modal-footer">' +
+						'<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+		'</div>' +
+		'<br />' +
+		'<br />'+
 		"<textarea id='list[" +
 		uoc_code +
 		"][" +

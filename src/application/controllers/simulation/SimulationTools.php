@@ -12,16 +12,17 @@ class SimulationTools extends CI_Controller
         $this->load->model("simulation/SimulationToolsModel");
         $this->load->model("interview/InterviewModel");
         $this->load->model("shared/SharedModel");
-
+        $this->load->model('phtools/StandardQualificationModel');
     }
 
     public function create()
     {
         unset($_SESSION["template_id"]);
+        //$data["occ_level"] = $this->MasterDataModel->get_occ_level();
+        //$data["occ_level2"] = $this->MasterDataModel->get_occ_level_seperate();
         $data["occ_level"] = $this->MasterDataModel->get_occ_level();
-		//$data["occ_level2"] = $this->MasterDataModel->get_occ_level_seperate();
-        $data["occ_level"] = $this->MasterDataModel->get_occ_level();
-        $data["tier1"] = $this->MasterDataModel->get_occ_tier1_dropdown();
+        $data["tier1_dropdown"] = $this->MasterDataModel->get_occ_tier1_dropdown();
+
 
 
         if (isset($_POST['action'])) {
@@ -32,6 +33,17 @@ class SimulationTools extends CI_Controller
             }
         } else {
             $data["breadcrumb"] = $this->MasterDataModel->breadcrumb("1,2,3");
+        }
+
+        if (isset($_POST['level_id'])) {
+            $data["current_occ_level_id"] = $_POST['level_id'];
+            $data["current_occ_level"] = $this->StandardQualificationModel->get_record_by_id($data["current_occ_level_id"]);
+            $data["tier2_dropdown"] = $this->StandardQualificationModel->get_all_tier2_dropdown($data["current_occ_level"]->tier1_code);
+            $data["tier3_dropdown"] = $this->StandardQualificationModel->get_all_tier3_dropdown($data["current_occ_level"]->tier1_code, $data["current_occ_level"]->tier2_code);
+            $data["level_dropdown"] = $this->StandardQualificationModel->get_all_level_dropdown($data["current_occ_level"]->tier1_code, $data["current_occ_level"]->tier2_code, $data["current_occ_level"]->tier3_id);
+        } else {
+            $data["current_occ_level_id"] = "";
+            $data["current_occ_level"] = null;
         }
 
         $data["active_title"] = array("active_title" => "สร้างข้อสอบ");
@@ -364,9 +376,10 @@ class SimulationTools extends CI_Controller
         $data["uoc"] = $this->MasterDataModel->fetch_uoc($_POST["occ_level_id"]);
         $data["template"] = $_POST["template_id"];
         $data["asm_tool"] = $_POST["asm_tool"];
-		if($_POST["template_type"] == 3){
+        $data["template_type"] = $_POST["template_type"];
+        if ($data["template_type"] == 3) {
 			$this->load->view("std_list/uoc", $data);
-		}else if($_POST["template_type"] == 1){
+        } else if ($data["template_type"] == 1) {
 			$this->load->view("std_list/uoc_chklist", $data);
 		}else{
 	//		$this->load->view("portfolio/manage/q_occ", $data);

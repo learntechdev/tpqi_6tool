@@ -54,6 +54,10 @@ $x = count($list_uoc);
                         } else {
                             $display_icon = "";
                         }
+                        $str_uoc_type_checked = "";
+                        if ($v->uoc_type == 2) {
+                            $str_uoc_type_checked = "checked";
+                        }
                         ?>
                         <div class="row">
                             <div class="col-md-7">
@@ -67,7 +71,7 @@ $x = count($list_uoc);
                             </div>
                             <div class="col-md-2">
                                 <label class="checkbox-inline" style="font-size: small; font-weight: normal;">
-                                    <input type="checkbox" id="optional_uoc<?= $n ?><?= $j ?>" name="optional_uoc<?= $n ?><?= $j ?>" value="0" style="position: relative;" disabled> UOC ทางเลือก
+                                    <input type="checkbox" id="optional_uoc<?= $n ?><?= $j ?>" name="optional_uoc<?= $n ?><?= $j ?>" style="position: relative;" <?= $str_uoc_type_checked ?> disabled> UOC ทางเลือก
                                 </label>
                             </div>
                             <div class="col-md-3" style="font-size: small; font-weight: normal;">
@@ -93,7 +97,8 @@ $x = count($list_uoc);
                                 "uoc_list_code" => $v->uoc_code,
                                 "eoc_code" => 0,
                                 "template_id" => $tmp_template_id,
-                                "asm_tool" => $asm_tool
+                                "asm_tool" => $asm_tool,
+                                "default_score" => $default_score,
 
                             )
                         ); ?>

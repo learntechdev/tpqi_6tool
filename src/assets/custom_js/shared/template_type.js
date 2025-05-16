@@ -84,6 +84,7 @@ function get_template_type()
 			//console.log(result);
 
 			$('#template_type').html(result);
+			$('#template_type').prop('disabled', false);
 
 
 

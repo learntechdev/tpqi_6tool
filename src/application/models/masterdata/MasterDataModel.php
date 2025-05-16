@@ -531,17 +531,28 @@ class MasterDataModel extends CI_Model
     //ประเภทของแม่แบบ (templates)
     public function template_type($asm_tool, $exam_type)
     {
-	/* Previous Query to fetch Exam templet type */
-	
-    //    $sql = " SELECT template_type, name FROM settings_template t
-    //                LEFT JOIN settings_template_type tp_type
-    //                ON t.template_type = tp_type.id
-    //               WHERE asm_tool = '" . $asm_tool . "'
-    //                AND exam_type = '" . $exam_type . "' ";
-	
-	    $sql = " SELECT DISTINCT template_type, name FROM settings_template t
-                    LEFT JOIN settings_template_type tp_type
-                    ON t.template_type = tp_type.id ";
+        /* Previous Query to fetch Exam templet type */
+        $sql = "";
+        if ($exam_type == 2) {
+            $sql = " SELECT DISTINCT template_type, name FROM settings_template t
+                   LEFT JOIN settings_template_type tp_type
+                   ON t.template_type = tp_type.id";
+        } else {
+            $sql = " SELECT DISTINCT template_type, name FROM settings_template t
+                   LEFT JOIN settings_template_type tp_type
+                   ON t.template_type = tp_type.id
+                  WHERE asm_tool = '" . $asm_tool . "'
+                   AND exam_type = '" . $exam_type . "' ";
+        }
+        // $sql = " SELECT DISTINCT template_type, name FROM settings_template t
+        //            LEFT JOIN settings_template_type tp_type
+        //            ON t.template_type = tp_type.id
+        //           WHERE asm_tool = '" . $asm_tool . "'
+        //            AND exam_type = '" . $exam_type . "' ";
+
+        // // $sql = " SELECT DISTINCT template_type, name FROM settings_template t
+        // //             LEFT JOIN settings_template_type tp_type
+        // //             ON t.template_type = tp_type.id ";
         return $this->BaseModel->get_all($sql);
     }
 

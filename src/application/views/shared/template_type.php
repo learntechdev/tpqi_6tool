@@ -44,7 +44,7 @@
             รูปแบบข้อสอบ
         </label>
         <select class="form-control template_type" data-dropup-auto="true" id="template_type" name="template_type"
-            required="" data-live-search="true">
+            required="" data-live-search="true" disabled>
             <option value="0">
                 --กรุณาเลือก--
             </option>

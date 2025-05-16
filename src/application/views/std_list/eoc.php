@@ -57,7 +57,8 @@
                                     "uoc_code" => $v->uoc_id,
                                     "eoc_code" => $v->eoc_id,
                                     "template_id" => $tmp_template_id,
-                                    "asm_tool" => $asm_tool
+                            "asm_tool" => $asm_tool,
+                            "default_score" => $default_score,
                                 )
                             );
                             ?>

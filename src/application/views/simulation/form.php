@@ -46,18 +46,19 @@
                                             if (isset($_POST['contract_no'])) {
                                                 $strContractNo = $_POST['contract_no'];
                                             }
-                                            if (isset($_POST['level_id'])) {
-                                                $strLevelId = $_POST['level_id'];
-                                            } else {
-                                                $strLevelId = "";
-                                            }
+                                            // if (isset($_POST['level_id'])) {
+                                            //     $strLevelId = $_POST['level_id'];
+                                            // } else {
+                                            //     $strLevelId = "";
+                                            // }
+                                            $strLevelId = $current_occ_level_id;
                                             ?>
                                             <input type="hidden" class="form-control" id="template_id"
                                                 name="template_id" value="<?= $tmp_tp_id ?>" />
                                             <input type="hidden" class="form-control" id="contract_no"
                                                 name="contract_no" value="<?= $strContractNo; ?>" />
                                             <input type="hidden" class="form-control" id="asm_tool_type" name="asm_tool_type" value="<?= $asm_tool_type ?>" />
-                                            <input type="hidden" class="form-control" id="level_id" name="level_id" value="<?= $strLevelId; ?>" />
+                                            <input type="hidden" class="form-control" id="level_id" name="level_id" value="<?= $current_occ_level_id; ?>" />
                                         </div>
                                     </div>
 
@@ -67,14 +68,15 @@
                                         </label>
 
                                         <div class="col-md-5" style="padding-bottom:5px">
-                                            <input type="hidden" id="txt_occ_level" name="txt_occ_level">
-                                            <input type="hidden" id="txt_tier1_code" name="txt_tier1_code">
+                                            <input type="hidden" id="txt_occ_level" name="txt_occ_level" value="<?= $current_occ_level_id; ?>">
+                                            <input type="hidden" id="txt_tier1_code" name="txt_tier1_code" value="<?= $current_occ_level->tier1_code; ?>">
                                             <select class="form-control tier1_code" data-dropup-auto="false"
                                                 id="tier1_code" name="tier1_code" required=""
                                                 data-live-search="true">
                                                 <option value="0">--กรุณาเลือกวิชาชีพ--</option>
-                                                <?php foreach ($tier1 as $v) { ?>
-                                                    <option value="<?php echo $v->tier1_code; ?>">
+                                                <?php foreach ($tier1_dropdown as $v) { ?>
+                                                    <option value="<?php echo $v->tier1_code; ?>"
+                                                        <?php echo ($v->tier1_code == $current_occ_level->tier1_code) ? 'selected' : ''; ?>>
                                                         <?php echo $v->tier1_title; ?>
                                                     </option>
                                                 <?php } ?>
@@ -85,11 +87,17 @@
                                         </label>
 
                                         <div class="col-md-4" style="padding-bottom:5px">
-                                            <input type="hidden" id="txt_tier2_code" name="txt_tier2_code">
+                                            <input type="hidden" id="txt_tier2_code" name="txt_tier2_code" value="<?= $current_occ_level->tier2_code; ?>">
                                             <select class="form-control tier2_code" data-dropup-auto="false"
                                                 id="tier2_code" name="tier2_code" required=""
                                                 data-live-search="true">
                                                 <option value="0">--กรุณาเลือกสาขา--</option>
+                                                <?php foreach ($tier2_dropdown as $v) { ?>
+                                                    <option value="<?php echo $v->tier2_code; ?>"
+                                                        <?php echo ($v->tier2_code == $current_occ_level->tier2_code) ? 'selected' : ''; ?>>
+                                                        <?php echo $v->tier2_title; ?>
+                                                    </option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -100,11 +108,17 @@
                                         </label>
 
                                         <div class="col-md-4" style="padding-bottom:5px">
-                                            <input type="hidden" id="txt_tier3_code" name="txt_tier3_code">
+                                            <input type="hidden" id="txt_tier3_code" name="txt_tier3_id" value="<?= $current_occ_level->tier3_id; ?>">
                                             <select class="form-control tier3_code" data-dropup-auto="false"
-                                                id="tier3_code" name="tier3_code" required=""
+                                                id="tier3_id" name="tier3_id" required=""
                                                 data-live-search="true">
                                                 <option value="0">--กรุณาเลือกอาชีพ--</option>
+                                                <?php foreach ($tier3_dropdown as $v) { ?>
+                                                    <option value="<?php echo $v->tier3_id; ?>"
+                                                        <?php echo ($v->tier3_id == $current_occ_level->tier3_id) ? 'selected' : ''; ?>>
+                                                        <?php echo $v->tier3_title; ?>
+                                                    </option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                         <label class="col-md-1 col-form-label">
@@ -117,6 +131,12 @@
                                                 id="level_code" name="level_code" required=""
                                                 data-live-search="true">
                                                 <option value="0">--กรุณาเลือกชั้น--</option>
+                                                <?php foreach ($level_dropdown as $v) { ?>
+                                                    <option value="<?php echo $v->level_code; ?>"
+                                                        <?php echo ($v->level_code == $current_occ_level->level_code) ? 'selected' : ''; ?>>
+                                                        <?php echo $v->level_name; ?>
+                                                    </option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -219,8 +239,8 @@
                                 <div class="col-md-12" id="uoc" style="display:none"></div>
                                 <div class="col-md-12" id="eoc" style="display:none"></div>
                                 <div class="col-md-12">
-                                    <br /><br />
-                                    <div class="row" style="text-align:center;display:none; " id="operation">
+                                    
+                                    <div class="row" style="text-align:center;display:inline; " id="operation">
                                         <div class="col-md-4"></div>
                                         <div class="" style="padding:5px;" id="div_save_pc">
                                             <button type="button" class="btn btn-primary" id="btn_save">
