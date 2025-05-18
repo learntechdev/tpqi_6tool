@@ -66,7 +66,7 @@ if ($template_id != "" && $uoc_code != "") {
                             <div class="col-md-4 text-right">
                                 <div class="btn-group  btn-group-sm edit-area" role="group">
                                     <button type="button" class="btn btn-success2 add"
-                                        onClick="" id="showPopup">
+                                        onClick="" id="showPopup" data-uoc_code="<?= $uoc_code ?>">
                                         <i class="fa fa-plus-circle" aria-hidden="true"><label style="padding-left:2px;">UOC</label></i>
                                     </button>&nbsp; &nbsp; &nbsp;
                                     <button type="button" class="btn btn-success add"

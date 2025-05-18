@@ -46,7 +46,7 @@ for ($i = 1; $i <= 1; $i++) {
                                 <?php if ($x != 1) { ?>
                                     <input type="hidden" id="uoc_selected" name="uoc_selected" value="<?= $x ?>">
                                     <button type="button" class="btn btn-success2 add"
-                                        onClick="" id="showPopup">
+                                        onClick="" id="showPopup" data-uoc_code="<?= $uoc_code ?>">
                                         <i class="fa fa-plus-circle" aria-hidden="true"><label style="padding-left:2px;">UOC</label></i>
                                     </button>&nbsp; &nbsp; &nbsp;
                                 <?php } ?>
