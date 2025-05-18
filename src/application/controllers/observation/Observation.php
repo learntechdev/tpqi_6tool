@@ -14,6 +14,7 @@ class Observation extends CI_Controller
         $this->load->model("masterdata/MasterDataModel");
         $this->load->model("shared/SharedModel");
         $this->load->model("observation/ObservationToolsModel");
+        $this->load->model('phtools/StandardQualificationModel');
     }
 
     private function criteria()
@@ -51,7 +52,10 @@ class Observation extends CI_Controller
     {
         unset($_SESSION["template_id"]);
         $data["occ_level"] = $this->MasterDataModel->get_occ_level();
-		$data["occ_level2"] = $this->MasterDataModel->get_occ_level_seperate();
+        //$data["occ_level2"] = $this->MasterDataModel->get_occ_level_seperate();
+        $data["tier1_dropdown"] = $this->MasterDataModel->get_occ_tier1_dropdown();
+
+
         if (isset($_POST['action'])) {
             if ($_POST['action'] == 'update') {
                 $data["breadcrumb"] = $this->MasterDataModel->breadcrumb("1,2,14");
@@ -61,6 +65,18 @@ class Observation extends CI_Controller
         } else {
             $data["breadcrumb"] = $this->MasterDataModel->breadcrumb("1,2,3");
         }
+
+        $data["current_occ_level_id"] = "";
+        $data["current_occ_level"] = null;
+
+        if (isset($_POST['level_id'])) {
+            $data["current_occ_level_id"] = $_POST['level_id'];
+            $data["current_occ_level"] = $this->StandardQualificationModel->get_record_by_id($data["current_occ_level_id"]);
+            $data["tier2_dropdown"] = $this->StandardQualificationModel->get_all_tier2_dropdown($data["current_occ_level"]->tier1_code);
+            $data["tier3_dropdown"] = $this->StandardQualificationModel->get_all_tier3_dropdown($data["current_occ_level"]->tier1_code, $data["current_occ_level"]->tier2_code);
+            $data["level_dropdown"] = $this->StandardQualificationModel->get_all_level_dropdown($data["current_occ_level"]->tier1_code, $data["current_occ_level"]->tier2_code, $data["current_occ_level"]->tier3_id);
+        }
+
         $data["active_title"] = array("active_title" => "สร้างข้อสอบ");
         $data["uoc"] = null;
         $data["eoc"] = null;

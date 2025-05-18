@@ -11,13 +11,15 @@ class DemonstrationTools extends CI_Controller
         $this->load->model("shared/SharedModel");
         $this->load->model("demonstration/DemonstrationToolsModel");
         $this->load->model("assessment/AssessmentResultModel");
+        $this->load->model('phtools/StandardQualificationModel');
     }
 
     public function create()
     {
         unset($_SESSION["template_id"]);
         $data["occ_level"] = $this->MasterDataModel->get_occ_level();
-		$data["occ_level2"] = $this->MasterDataModel->get_occ_level_seperate();
+        //$data["occ_level2"] = $this->MasterDataModel->get_occ_level_seperate();
+        $data["tier1_dropdown"] = $this->MasterDataModel->get_occ_tier1_dropdown();
 
         if (isset($_POST['action'])) {
             if ($_POST['action'] == 'update') {
@@ -27,6 +29,17 @@ class DemonstrationTools extends CI_Controller
             }
         } else {
             $data["breadcrumb"] = $this->MasterDataModel->breadcrumb("1,2,3");
+        }
+
+        $data["current_occ_level_id"] = "";
+        $data["current_occ_level"] = null;
+
+        if (isset($_POST['level_id'])) {
+            $data["current_occ_level_id"] = $_POST['level_id'];
+            $data["current_occ_level"] = $this->StandardQualificationModel->get_record_by_id($data["current_occ_level_id"]);
+            $data["tier2_dropdown"] = $this->StandardQualificationModel->get_all_tier2_dropdown($data["current_occ_level"]->tier1_code);
+            $data["tier3_dropdown"] = $this->StandardQualificationModel->get_all_tier3_dropdown($data["current_occ_level"]->tier1_code, $data["current_occ_level"]->tier2_code);
+            $data["level_dropdown"] = $this->StandardQualificationModel->get_all_level_dropdown($data["current_occ_level"]->tier1_code, $data["current_occ_level"]->tier2_code, $data["current_occ_level"]->tier3_id);
         }
 
         $data["active_title"] = array("active_title" => "สร้างข้อสอบ");
@@ -132,6 +145,7 @@ class DemonstrationTools extends CI_Controller
         $str_occ_level_id = $action == "copy" ? $data->txt_occ_level : $data->occ_level_id;
         $str_template_type = $action == "copy" ? $data->txt_template_type : $data->template_type;
         $str_exam_type = $action == "copy" ? $data->txt_exam_type : $data->exam_type;
+        $str_criteria_used_byexamier = $data->criteria_used_byexamier; //---- Phot ไม่แน่ใจ 
         $str_criteria_type_byexamier = $data->criteria_used_byexamier == 0 ? "" : $data->criteria_type_byexamier;
 
         $data_arr = [

@@ -212,7 +212,7 @@ function fill_data(
 	$("#template_type").val(template_type).trigger("change");
 	$("#txt_exam_type").val(exam_type);
 	$("#txt_template_type").val(template_type);
-	$("#txt_occ_level").val(occ_level_id1);
+	$("#txt_occ_level").val(occ_level_id);
 	$("#template_id").val(template_id);
 	//$("#contract_no").val(contract_no);
 

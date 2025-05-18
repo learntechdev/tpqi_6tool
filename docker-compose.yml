@@ -10,6 +10,7 @@ services:
       - "2052:80"
     depends_on:
       - mysql
+    restart: always
   mysql:
     image: mysql:8.0
     environment:
@@ -17,11 +18,12 @@ services:
       MYSQL_DATABASE: tpqinet_asm_uat2
       MYSQL_USER: tpqi
       MYSQL_PASSWORD: db@tpqi
-      MYSQL_INITDB_ARGS: "--sql-mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'"
+    command: --sql-mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
     ports:
       - "3308:3306"
     volumes:
       - mysql_data8:/var/lib/mysql
+    restart: always
 
         
 

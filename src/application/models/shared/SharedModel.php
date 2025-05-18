@@ -313,7 +313,10 @@ class SharedModel extends CI_Model
         }*/
 
         if ($asm_tool == '5') {
-            $table = 'exam_demonstration_detail';
+            // $table = 'exam_demonstration_detail'; 
+            // Phot Note: ไม่พบตารางนี้ในฐานข้อมูล เลยจะใส่เป็น exam_template_detail_demonstration เพราะชื่อดูใกล้เคียงกัน แต่เงื่อนไข ก็ไม่มี eoc_code และ uoc_code
+            // 'เลยใส่เป็น tp_qans
+            $table = 'tp_qans';
         } else {
             $table = 'tp_qans';
         }
