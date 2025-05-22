@@ -125,7 +125,7 @@
                                             </select>
                                         </div>
                                         <label class="col-md-1 col-form-label">
-                                            ชั้น
+                                            ระดับ / ชั้น
                                         </label>
 
                                         <div class="col-md-3" style="padding-bottom:5px">
@@ -133,7 +133,7 @@
                                             <select class="form-control level_code" data-dropup-auto="false"
                                                 id="level_code" name="level_code" required=""
                                                 data-live-search="true">
-                                                <option value="0">--กรุณาเลือกชั้น--</option>
+                                                <option value="0">--กรุณาเลือกระดับ / ชั้น--</option>
                                                 <?php foreach ($level_dropdown as $v) { ?>
                                                     <option value="<?php echo $v->level_code; ?>"
                                                         <?php echo ($v->level_code == $current_occ_level->level_code) ? 'selected' : ''; ?>>

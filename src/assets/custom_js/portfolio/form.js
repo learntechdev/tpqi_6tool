@@ -27,85 +27,108 @@ $(document).ready(function () {
 	});
 
 	get_dataforedit();
-	$('#tier1_code').change(function() {
-		$('#tier2_code, #tier3_id, #level_code').prop('disabled', true);
-		$('#tier2_code').html('<option value="">--กรุณาเลือกสาขา--</option>');
-		$('#tier3_id').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
-		$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
-		const tier1_code = $(this).val();
-		// alert(tier1_code);
-		if (tier1_code) {
-			
-			$.post('../../phtools/PhDropDown/get_tier2', {
-				tier1_code
-			}, function(data) {
-				// alert(data.length + ' ' + data[0].tier2_code)
-				if (data.length === 1 && !data[0].tier2_code) {
-					$('#tier2_code').val('');
-					$('#tier2_code').change();
-					$('#tier2_code').prop('disabled', true);
-					$('#tier2_code').html('<option value="">--ไม่มีสาขา--</option>');
-				} else {
-					$('#tier2_code').html('<option value="">--กรุณาเลือกสาขา--</option>');
-					data.forEach(item => {
-						if (!item.tier2_code) {
-							$('#tier2_code').append(`<option value=""> - </option>`);
-						} else {
-							$('#tier2_code').append(`<option value="${item.tier2_code}">${item.tier2_title}</option>`);
-						}
+	$("#tier1_code").change(function () {
+    $("#tier2_code, #tier3_id, #level_code").prop("disabled", true);
+    $("#tier2_code").html('<option value="">--กรุณาเลือกสาขา--</option>');
+    $("#tier3_id").html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+    $("#level_code").html(
+      '<option value="">--กรุณาเลือกระดับ / ชั้น--</option>'
+    );
+    const tier1_code = $(this).val();
+    // alert(tier1_code);
+    if (tier1_code) {
+      $.post(
+        "../../phtools/PhDropDown/get_tier2",
+        {
+          tier1_code,
+        },
+        function (data) {
+          // alert(data.length + ' ' + data[0].tier2_code)
+          if (data.length === 1 && !data[0].tier2_code) {
+            $("#tier2_code").val("");
+            $("#tier2_code").change();
+            $("#tier2_code").prop("disabled", true);
+            $("#tier2_code").html('<option value="">--ไม่มีสาขา--</option>');
+          } else {
+            $("#tier2_code").html(
+              '<option value="">--กรุณาเลือกสาขา--</option>'
+            );
+            data.forEach((item) => {
+              if (!item.tier2_code) {
+                $("#tier2_code").append(`<option value=""> - </option>`);
+              } else {
+                $("#tier2_code").append(
+                  `<option value="${item.tier2_code}">${item.tier2_title}</option>`
+                );
+              }
+            });
+            $("#tier2_code").prop("disabled", false);
+          }
+        },
+        "json"
+      );
+    }
+  });
 
-					});
-					$('#tier2_code').prop('disabled', false);
-				}
+  $("#tier2_code").change(function () {
+    const tier1_code = $("#tier1_code").val();
+    const tier2_code = $(this).val();
+    $("#tier3_id, #level_code").prop("disabled", true);
+    $("#tier3_id").html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+    $("#level_code").html(
+      '<option value="">--กรุณาเลือกระดับ / ชั้น--</option>'
+    );
+    // if (tier2_code) {
+    $.post(
+      "../../phtools/PhDropDown/get_tier3",
+      {
+        tier1_code,
+        tier2_code,
+      },
+      function (data) {
+        $("#tier3_id").html('<option value="">--กรุณาเลือกอาชีพ--</option>');
+        data.forEach((item) => {
+          $("#tier3_id").append(
+            `<option value="${item.tier3_id}">${item.tier3_title}</option>`
+          );
+        });
+        $("#tier3_id").prop("disabled", false);
+      },
+      "json"
+    );
+    // }
+  });
 
-			}, 'json');
-		}
-
-	});
-
-	$('#tier2_code').change(function() {
-		const tier1_code = $('#tier1_code').val();
-		const tier2_code = $(this).val();
-		$('#tier3_id, #level_code').prop('disabled', true);
-		$('#tier3_id').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
-		$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
-		// if (tier2_code) {
-		$.post('../../phtools/PhDropDown/get_tier3', {
-			tier1_code,
-			tier2_code
-		}, function(data) {
-			$('#tier3_id').html('<option value="">--กรุณาเลือกอาชีพ--</option>');
-			data.forEach(item => {
-				$('#tier3_id').append(`<option value="${item.tier3_id}">${item.tier3_title}</option>`);
-			});
-			$('#tier3_id').prop('disabled', false);
-		}, 'json');
-		// }
-
-
-	});
-
-	$('#tier3_id').change(function() {
-		const tier1_code = $('#tier1_code').val();
-		const tier2_code = $('#tier2_code').val();
-		const tier3_id = $(this).val();
-		$('#level_code').prop('disabled', true).html('<option value="">--กรุณาเลือกชั้น--</option>');
-		if (tier3_id) {
-			$.post('../../phtools/PhDropDown/get_level', {
-				tier1_code,
-				tier2_code,
-				tier3_id
-			}, function(data) {
-				$('#level_code').html('<option value="">--กรุณาเลือกชั้น--</option>');
-				data.forEach(item => {
-					$('#level_code').append(`<option value="${item.level_code}">${item.level_name}</option>`);
-				});
-				$('#level_code').prop('disabled', false);
-			}, 'json');
-		}
-
-
-	});
+  $("#tier3_id").change(function () {
+    const tier1_code = $("#tier1_code").val();
+    const tier2_code = $("#tier2_code").val();
+    const tier3_id = $(this).val();
+    $("#level_code")
+      .prop("disabled", true)
+      .html('<option value="">--กรุณาเลือกระดับ / ชั้น--</option>');
+    if (tier3_id) {
+      $.post(
+        "../../phtools/PhDropDown/get_level",
+        {
+          tier1_code,
+          tier2_code,
+          tier3_id,
+        },
+        function (data) {
+          $("#level_code").html(
+            '<option value="">--กรุณาเลือกระดับ / ชั้น--</option>'
+          );
+          data.forEach((item) => {
+            $("#level_code").append(
+              `<option value="${item.level_code}">${item.level_name}</option>`
+            );
+          });
+          $("#level_code").prop("disabled", false);
+        },
+        "json"
+      );
+    }
+  });
 	$('#level_code').change(function() {
 		const tier1_code = $('#tier1_code').val();
 		const tier2_code = $('#tier2_code').val();
