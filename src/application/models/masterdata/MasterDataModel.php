@@ -517,9 +517,9 @@ class MasterDataModel extends CI_Model
         return $exam_type_arr;
          */
         $condition = "status = '1'";
-        if (!empty($asm_tool)) {
-            $condition = "asm_tool = '" . $asm_tool . "' AND status = '1'";
-        }
+        // if (!empty($asm_tool)) {
+        //     $condition = "asm_tool = '" . $asm_tool . "' AND status = '1'";
+        // }
 
         $sql = " SELECT exam_type,name FROM settings_template t
                 LEFT JOIN settings_exam_type exam_type

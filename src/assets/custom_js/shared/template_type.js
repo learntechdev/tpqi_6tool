@@ -60,7 +60,7 @@ function get_template_type()
 
 			var tp_type = $("#txt_template_type").val();
 
-
+			//alert("from javascript : ");
 
 			result = "<option value='0'>--กรุณาเลือก--</option>";
 

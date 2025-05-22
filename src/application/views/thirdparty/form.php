@@ -182,8 +182,7 @@
 
                                     <div class="col-md-12">
                                         <div class="card">
-                                            <ul
-                                                class="nav nav-tabs nav-tabs-solid nav-justified bg-indigo-400 border-x-0 border-bottom-0 border-top-indigo-300 mb-0">
+                                            <ul class="nav nav-tabs nav-tabs-solid nav-justified bg-indigo-400 border-x-0 border-bottom-0 border-top-indigo-300 mb-0">
                                                 <li class="nav-item">
                                                     <a href="#tab1" class="nav-link font-size-sm text-uppercase active"
                                                         data-toggle="tab">
